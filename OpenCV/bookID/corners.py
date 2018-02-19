@@ -19,7 +19,7 @@ img = cv2.cvtColor(orig, cv2.COLOR_BGR2GRAY)
 
 # this is to recognize white on white
 kernel = cv2.getStructuringElement(cv2.MORPH_RECT , (9,9))
-# dilated = cv2.dilate(img, kernel)
+dilated = cv2.dilate(img, kernel)
 
 edges = cv2.Canny(dilated, 0, CANNY, apertureSize=3)
 lines = cv2.HoughLinesP(edges, 1,  3.14/180, HOUGH)
@@ -35,6 +35,8 @@ contours = filter(lambda cont: cv2.contourArea(cont) > 10000, contours)
 rects = []
 for cont in contours:
     rect = cv2.approxPolyDP(cont, 40, True).copy().reshape(-1, 2)
+    print rect.shape
+    print type(rect)
     rects.append(rect)
 
     # that's basically it
